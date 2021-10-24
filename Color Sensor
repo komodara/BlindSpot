@@ -1,1 +1,25 @@
+brick.SetColorMode(3,2);
+
+ 
+
+while 1
+
+    color= brick.ColorCode(3);
+
+    if color == 5
+
+        disp("Red");
+
+    elseif color == 2
+
+        disp("Blue");
+
+    elseif color == 3
+
+        disp("Green");
+
+    end
+
+end
+
 
