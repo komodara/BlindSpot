@@ -1,1 +1,141 @@
+%starts moving forward
+
+brick.MoveMotor('AB', 20);
+
+brick.MoveMotor('B', 27); 
+
+ 
+
+while 1
+
+    %gets right distance from wall and bump sensor status
+
+    distance = brick.UltrasonicDist(4);
+
+    touch = brick.TouchPressed(1);
+
+    
+
+    %wall in front
+
+    if touch == 1
+
+        %stop 
+
+        brick.StopMotor('AB');
+
+        
+
+        %back up a little
+
+        brick.MoveMotor('AB', -20);
+
+        pause(2);
+
+        brick.StopMotor('AB');
+
+        
+
+        %wall in front and wall to right
+
+        if distance < 50
+
+            %turn left
+
+            brick.MoveMotor('A', 55);
+
+            brick.MoveMotor('B', 30);
+
+            pause(1);
+
+            brick.StopMotor('AB');
+
+            
+
+            %keep moving forward
+
+            brick.MoveMotor('AB', 20);
+
+            brick.MoveMotor('B', 27); 
+
+ 
+
+            
+
+        %wall in front and no wall to right
+
+        else
+
+            %turn right
+
+            brick.MoveMotor('B', 80);
+
+             brick.MoveMotor('A', 40);
+
+           pause(1);
+
+          brick.StopMotor('AB');
+
+            
+
+            %keep moving forward
+
+            brick.MoveMotor('AB', 20);
+
+            brick.MoveMotor('B', 27);
+
+        end
+
+    end
+
+    
+
+    %no wall in front and no wall to right
+
+    if touch == 0 && distance > 50
+
+        %stop
+
+        brick.StopMotor('AB');
+
+        
+
+        %back up a little
+
+        brick.MoveMotor('AB', -20);
+
+        pause(2);
+
+        brick.StopMotor('AB');
+
+          
+
+        %turn right
+
+         brick.MoveMotor('B', 80);
+
+         brick.MoveMotor('A', 40);
+
+         pause(1);
+
+         brick.StopMotor('AB');
+
+         
+
+         %keep moving forward
+
+         brick.MoveMotor('AB', 20);
+
+         brick.MoveMotor('B', 27);
+
+    end
+
+    
+
+    %otherwise, keep moving forward
+
+ 
+
+end
+
 
