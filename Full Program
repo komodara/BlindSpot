@@ -1,0 +1,165 @@
+global key
+InitKeyboard();
+
+manual = false; %determines if manual or automatic
+state = 0; %changes automatic movement based on intended action
+
+while 1
+    pause (0.1);
+    
+    if(manual == false) %automatic movement 
+        switch state
+            case 0 %stuff that happens by default 
+%movement----------------------   
+                brick.MoveMotor('AB', 20);
+                brick.MoveMotor('B', 22); %moves forward
+                pause(0.5);
+                
+                %wall in front
+                if (brick.TouchPressed(1))
+                    
+                    %wall in front and wall to right
+                    if(brick.UltrasonicDistance(4) < 45)
+                        disp('Wall in front and wall to right');
+            
+                        %stop and reverse
+                        brick.StopMotor('AB');
+                        brick.MoveMotor('AB', -30);
+                        pause(2);
+                        brick.StopMotor('AB');
+        
+                        %turn left
+                        state = 1;
+                        
+                    %wall in front and no wall to right
+                    else
+                        disp('Wall in front and no wall to right'); 
+            
+                        %stop and reverse
+                        brick.StopMotor('AB');
+                        brick.MoveMotor('AB', -30);
+                        pause(2);
+                        brick.StopMotor('AB');
+        
+                        %turn right
+                        state = 2;
+                    end
+                end
+             
+                %no wall in front and no wall to right
+                if (brick.TouchPressed(1) == 0) && (brick.UltrasonicDist(4) > 50)
+                    disp('No wall in front and no wall to right');
+                    
+                    %stop
+                    brick.StopMotor('AB');
+        
+                    %turn right
+                    state = 2;
+                end
+%color stuff---------------------
+            color = brick.ColorCode(3);
+            
+            if color == 5
+                disp('Red');
+            elseif color == 2
+                disp('Blue');
+            elseif color == 3
+                disp('Green');
+                state = 3; %start dropoff
+            end
+            
+            case 1 %turn left
+                disp('Left turn!');
+                brick.MoveMotor('A', 100);
+                brick.MoveMotor('B', 20);
+                pause(3);
+                brick.StopMotor('AB');
+                state = 0; 
+                
+            case 2 %turn right
+                disp('Right turn!');
+                brick.StopMotor('A', 10);
+                brick.MoveMotor('B', 63);
+                pause(3);
+                brick.StopMotor('AB');
+                state = 0;
+                
+            case 3 %automatic dropoff
+                disp('Dropoff started');
+                %moves until car is hopefully fully in square
+                brick.MoveMotor('AB', 20);
+                while 1
+                    if(brick.TouchPressed(1))
+                        brick.StopMotor('AB');
+                        break;
+                    end
+                end
+                %drops off person
+                brick.MoveMotor('C', 0.5);
+                pause(1);
+                %end
+                brick.StopAllMotors();
+                break;
+                
+            case 4 %pickup
+                disp('Pickup started');
+                manual = true;     
+        end
+    end
+    
+    if(key == 'm') %press m to enter manual
+        manual = true;
+    end
+    
+    if(manual == true) %manual movement
+        switch key
+            case 'uparrow' %move forward
+                disp('Move forward')
+                brick.MoveMotor('AB', 20);
+                brick.MoveMotor('B', 22);
+                
+            case 'leftarrow' %turn left
+                disp('Turn left');
+                brick.MoveMotor('A', 100);
+                brick.MoveMotor('B', 20);
+                pause(3);
+                brick.StopMotor('AB');
+                
+            case 'rightarrow' %turn right
+                disp('Turn right');
+                brick.StopMotor('A', 10);
+                brick.MoveMotor('B', 63);
+                pause(3);
+                brick.StopMotor('AB');
+                
+            case 's' %stop
+                disp('Stop');
+                brick.StopMotor('AB');
+            
+            case 'r' %reverse
+                disp('Reverse')
+                brick.MoveMotor('AB', -30);
+                pause(2);
+                brick.StopMotor('AB');
+                
+            case 'p' %pickup
+                brick.StopAllMotors();
+                disp('Picking up person');
+                brick.MoveMotor('C', -0.5);
+                pause(1);
+                brick.StopMotor('C');
+                
+            case 'a' %automatic
+                brick.StopAllMotors();
+                manual = false;
+        end
+    end
+    
+    if(key == 'q') %press q to end program
+        brick.StopAllMotors();
+        break;
+    end
+    
+end
+CloseKeyboard();
+    
