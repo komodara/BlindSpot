@@ -1,5 +1,7 @@
 %RGB 3, touch 1, wall 4, left motor A, right motor B, lift motor C
 %Program without cases
+brick.SetColorMode(3,4);
+ 
 while 1
 %move forward
 brick.MoveMotor('AB', 20);
