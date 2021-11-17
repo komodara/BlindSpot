@@ -1,25 +1,18 @@
-brick.SetColorMode(3,2);
+ brick.SetColorMode(3,4);
 
  
-
-while 1
-
-    color= brick.ColorCode(3);
-
-    if color == 5
-
-        disp("Red");
-
-    elseif color == 2
-
-        disp("Blue");
-
-    elseif color == 3
-
-        disp("Green");
-
-    end
-
-end
-
+ while 1
+     pause(0.5);
+     rgb = brick.ColorRGB(3);
+     %red
+     if(rgb(1) >= 60 && rgb(1) <= 75) && (rgb(2)>=10 && rgb(2)<=20) && (rgb(3)>=1 && rgb(3)<=8)
+         disp("Red");
+     %blue
+     elseif(rgb(1) >= 5 && rgb(1) <= 10) && (rgb(2)>=21 && rgb(2)<=30) && (rgb(3)>=35 && rgb(3)<=40)
+         disp("Blue");
+     %green
+     elseif(rgb(1) >= 5 && rgb(1) <= 15) && (rgb(2)>=31 && rgb(2)<=40) && (rgb(3)>=10 && rgb(3)<=15)
+         disp("Green");
+     end
+ end
 
