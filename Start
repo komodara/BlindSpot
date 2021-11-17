@@ -1,0 +1,4 @@
+brick = ConnectBrick('SPYNNER2000');
+brick.beep();
+
+%DisconnectBrick(brick)
