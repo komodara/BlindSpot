@@ -1,65 +1,62 @@
-Start Code
-
-brick = ConnectBrick('SPYNNER2000');
-
-brick.playTone(100, 800, 500);
-
 global key
-
 InitKeyboard();
 
- 
-
 while 1
-
-    pause (0.1) 
-
+    pause (0.1) %waits for 0.1 second before detecting current keyboard input
     switch key
-
         case 'uparrow'
-
-            disp('Up Arrow Pressed!');
-
-            brick.MoveMotor('A', 10);
-
+            disp('Up Arrow Pressed!'); %prints what arrow is pressed to command window
+            brick.MoveMotor('AB', 20);
+            brick.MoveMotor('B', 22);  
  
-
-            
-
         case 'downarrow'
-
             disp('Down Arrow Pressed!');
-
-            brick.StopMotor('A');
-
+            brick.MoveMotor('AB', -40);
             
-
         case 'leftarrow'
-
             disp('Left Arrow Pressed!');
-
- 
+            brick.MoveMotor('A', 100);
+            brick.MoveMotor('B', 20);
+            pause(3);
+            brick.StopMotor('AB');
 
         case 'rightarrow'
-
             disp('Right Arrow Pressed!');
+            brick.StopMotor('A', 10);
+            brick.MoveMotor('B', 63);
+            pause(3);
+            brick.StopMotor('AB');
 
+
+        case 's' %stop
+            disp('Stop');
+            brick.StopAllMotors();
+
+        case 'r' %reverse
+            disp('Reverse')
+            brick.MoveMotor('AB', -30);
+            pause(2);
+            brick.StopMotor('AB');
+
+        case 'p' %pickup
+            brick.StopAllMotors();
+            disp('Picking up person');
+            brick.MoveMotor('C', -0.5);
+            pause(1);
+            brick.StopMotor('C');
+            disp('picked up');
+            brick.StopAllMotors();
+                        
+        case 'd' %dropoff
+            brick.StopMotor('AB');
+            pause(1);
+            brick.MoveMotor('C', 0.5);
+            pause(1);
+            brick.StopAllMotors();
             
-
-        case 0              % No key is being pressed.
-
-            disp('No Key Pressed!');
-
-            
-
         case 'q'            %Press "q" to quit.
-
-            break;
-
+            break;         
     end
-
     
-
 end
-
 CloseKeyboard();
