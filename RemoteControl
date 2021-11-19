@@ -6,27 +6,37 @@ while 1
     switch key
         case 'uparrow'
             disp('Up Arrow Pressed!'); %prints what arrow is pressed to command window
-            brick.MoveMotor('AB', 20);
-            brick.MoveMotor('B', 22);  
+            brick.MoveMotor('AB', 40);
+            brick.MoveMotor('B', 43.2);
+            
+        case 'f'
+            disp('Forward fast');
+            brick.MoveMotor('AB', 50);
  
         case 'downarrow'
             disp('Down Arrow Pressed!');
-            brick.MoveMotor('AB', -40);
+            brick.MoveMotor('AB', -20);
+            
+        case 'g'
+            disp('Reverse fast');
+            brick.MoveMotor('AB', -50);
+            
             
         case 'leftarrow'
             disp('Left Arrow Pressed!');
-            brick.MoveMotor('A', 100);
-            brick.MoveMotor('B', 20);
-            pause(3);
+            brick.StopMotor('AB');
+            brick.MoveMotor('A', 90);
+            brick.MoveMotor('B', -80);
+            pause(1);
             brick.StopMotor('AB');
 
         case 'rightarrow'
             disp('Right Arrow Pressed!');
-            brick.StopMotor('A', 10);
-            brick.MoveMotor('B', 63);
-            pause(3);
             brick.StopMotor('AB');
-
+            brick.MoveMotor('A', -90);
+            brick.MoveMotor('B', 100);
+            pause(2.5);
+            brick.StopMotor('AB');
 
         case 's' %stop
             disp('Stop');
@@ -39,18 +49,17 @@ while 1
             brick.StopMotor('AB');
 
         case 'p' %pickup
-            brick.StopAllMotors();
-            disp('Picking up person');
-            brick.MoveMotor('C', -0.5);
+            brick.StopMotor('AB');
             pause(1);
-            brick.StopMotor('C');
+            brick.MoveMotor('C', -20);
+            pause(1);
             disp('picked up');
             brick.StopAllMotors();
                         
         case 'd' %dropoff
             brick.StopMotor('AB');
             pause(1);
-            brick.MoveMotor('C', 0.5);
+            brick.MoveMotor('C', 20);
             pause(1);
             brick.StopAllMotors();
             
