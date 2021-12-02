@@ -22,7 +22,7 @@ while 1
     %green           
     elseif(dropoff == true && rgb(1) >= 5 && rgb(1) <= 15) && (rgb(2)>=31 && rgb(2)<=40) && (rgb(3)>=10 && rgb(3)<=15)
         disp('Green: Dropoff started');
-        pause(4);
+        pause(3);
         disp('Lowering person');
         brick.MoveMotor('C', 20);
         pause(1);
@@ -51,7 +51,7 @@ while 1
 
                     case 'rightarrow' %turn right
                         disp('Turn right');
-                        brick.StopMotor('A', -100);
+                        brick.MoveMotor('A', -100);
                         brick.MoveMotor('B', 100);
 
                     case 's' %stop
@@ -115,9 +115,9 @@ while 1
             brick.StopMotor('AB');
             %turn right
             disp('turning right');
-            brick.StopMotor('A', -100);
+            brick.MoveMotor('A', -100);
             brick.MoveMotor('B', 100);
-            pause(2.6);
+            pause(2.7);
             brick.StopMotor('AB');
             %if wall detected right after turning, ignore wall sensor
             if(brick.UltrasonicDist(4) > 80)
@@ -131,19 +131,21 @@ while 1
     end %touch sensor if statement end
 
     %no wall in front and no wall to right
-    if (brick.TouchPressed(1) == 0) && (brick.UltrasonicDist(4) > 70)
+    if (brick.TouchPressed(1) == 0) && (brick.UltrasonicDist(4) > 80)
         disp('No wall in front and no wall to right');
         %stop
+        pause(1);
         brick.StopMotor('AB');
         %turn right
         disp('turning right');
-        brick.StopMotor('A', -100);
+        brick.MoveMotor('A', -100);
         brick.MoveMotor('B', 100);
-        pause(2.6);
+        pause(2.7);
         brick.StopMotor('AB');
         %keep moving forward
         %if wall detected right after turning, ignore wall sensor
         if(brick.UltrasonicDist(4) > 80)
+            disp('Ignoring wall sensor rq');
             brick.MoveMotor('AB', 40);
             pause(3);
         end
